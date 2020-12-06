@@ -1,18 +1,12 @@
 #[aoc_generator(day3)]
-fn parse_field<'a>(input: &str) -> Vec<Vec<bool>> {
+fn parse_field(input: &str) -> Vec<Vec<bool>> {
     input.lines().map(|l| l.chars().map(|c| c == '#').collect()).collect()
 }
 
 fn number_of_trees(field: &[Vec<bool>], slope: (usize, usize)) -> u64 {
     let w = field[0].len();
     let (vx, vy) = slope;
-    let mut n = 0;
-    for i in 0..(field.len()/vy) {
-        if field[vy*i][(vx*i)%w] {
-            n += 1;
-        }
-    }
-    n
+    (0..(field.len()/vy)).filter(|i| field[vy*i][(vx*i)%w]).count() as u64
 }
 
 #[aoc(day3, part1)]
@@ -31,7 +25,7 @@ pub fn solve_part2(input: &[Vec<bool>]) -> u64 {
 mod tests {
     use super::*;
 
-    const test_input: &'static str = "..##.......\n#...#...#..\n.#....#..#.
+    const TEST_INPUT: &'static str = "..##.......\n#...#...#..\n.#....#..#.
 ..#.#...#.#\n.#...##..#.\n..#.##.....\n.#.#.#....#
 .#........#\n#.##...#...\n#...##....#\n.#..#...#.#";
 
@@ -55,14 +49,14 @@ mod tests {
 
     #[test]
     fn test_part1_solver_large() {
-        let input = parse_field(test_input);
+        let input = parse_field(TEST_INPUT);
         assert_eq!(solve_part1(&input), 7);
     }
 
 
     #[test]
     fn test_part2_solver_large() {
-        let input = parse_field(test_input);
+        let input = parse_field(TEST_INPUT);
         assert_eq!(solve_part2(&input), 336);
     }
 }
