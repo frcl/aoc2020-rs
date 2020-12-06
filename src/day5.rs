@@ -37,7 +37,7 @@ mod tests {
 
     #[test]
     fn test_parser() {
-        assert_eq!(parse_seats(TEST_INPUT), vec![Seat(70, 7), Seat(14, 7), Seat(102, 4)]);
+        assert_eq!(parse_seats(TEST_INPUT), vec![567, 119, 820]);
     }
 
     #[test]
