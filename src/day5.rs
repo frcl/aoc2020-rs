@@ -1,40 +1,29 @@
-#[derive(Debug, PartialEq)]
-pub struct Seat(u8, u8);
+use itertools::{sorted, zip};
 
-impl Seat {
-    fn id(&self) -> u16 {
-        ((self.0 as u16) << 3) + self.1 as u16
-    }
-}
 
 #[aoc_generator(day5)]
-fn parse_seats(input: &str) -> Vec<Seat> {
-    input.lines().map(|l| Seat(
-        u8::from_str_radix(&(l[0..7].chars().map(|c| match c {
+fn parse_seats(input: &str) -> Vec<u16> {
+    input.lines().map(|l| u16::from_str_radix(&(l.chars().map(|c| match c {
             'F' => '0',
             'B' => '1',
-            _ => panic!("Invalid input")
-        }).collect::<String>()), 2).unwrap(),
-        u8::from_str_radix(&(l[7..].chars().map(|c| match c {
             'L' => '0',
             'R' => '1',
             _ => panic!("Invalid input")
         }).collect::<String>()), 2).unwrap()
-    )).collect()
+    ).collect()
 }
 
 #[aoc(day5, part1)]
-pub fn solve_part1(input: &[Seat]) -> u16 {
-    input.iter().map(|s| s.id()).max().unwrap()
+pub fn solve_part1(input: &[u16]) -> u16 {
+    *input.iter().max().unwrap()
 }
 
 #[aoc(day5, part2)]
-pub fn solve_part2(input: &[Seat]) -> u16 {
-    let mut ids = input.iter().map(|s| s.id()).collect::<Vec<u16>>();
-    ids.sort();
-    for (i, id) in ids[1..].iter().enumerate() {
-        if ids[i] != id-1 {
-            return id-1;
+pub fn solve_part2(input: &[u16]) -> u16 {
+    let ids: Vec<&u16> = sorted(input).collect();
+    for (&a, &b) in zip(ids.iter(), ids[1..].iter()) {
+        if *a != b - 1 {
+            return b -1
         }
     }
     panic!("No free seat found");

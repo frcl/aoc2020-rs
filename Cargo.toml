@@ -12,3 +12,4 @@ bench = false
 aoc-runner = "*"
 aoc-runner-derive = "*"
 regex = "1"
+itertools = "*"
