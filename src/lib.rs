@@ -1,3 +1,5 @@
+//#![feature(min_const_generics)]
+
 extern crate aoc_runner;
 
 #[macro_use]
@@ -22,5 +24,6 @@ pub mod day12;
 pub mod day13;
 pub mod day14;
 pub mod day15;
+pub mod day17;
 
 aoc_lib!{ year = 2020 }
